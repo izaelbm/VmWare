@@ -1,0 +1,18 @@
+#sudo nano /etc/systemd/system/mount-dados.service
+#sudo systemctl daemon-reload
+#sudo systemctl enable mount-dados.service
+#sudo systemctl start mount-dados.service
+#executar somente como SUDO xxx
+
+
+[Unit]
+Description=Mount VMware Shared Folder
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=[ -d "/media/vm_share" ] || mkdir -p "/media/vm_share" && /usr/bin/vmhgfs-fuse .host:/vm_share /media/vm_share
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
